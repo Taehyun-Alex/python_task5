@@ -6,15 +6,15 @@ server_address = (socket.gethostname(), 12345)
 
 client_socket.connect(server_address)
 
-print("connected to the server")
+print("Connected to the server")
 
 try:
-    message = input("[Magic 8 ball] Ask me a question\n=> ")
-    random.seed(123)
-    client_socket.sendall(message.encode("utf-8"))
+    while True:
+        question = input("[Magic 8 ball] Ask me a question\n=> ")
+        client_socket.sendall(question.encode("utf-8"))
 
-    data = client_socket.recv(1024)
-    print(data.decode())
+        answer = client_socket.recv(1024)
+        print(answer.decode())
 
 finally:
     client_socket.close()
