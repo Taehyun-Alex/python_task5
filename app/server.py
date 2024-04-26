@@ -15,7 +15,7 @@ while True:
 
     try:
         data = connection.recv(1024)
-        print(f"Received from {client_address}: {data.decode()}")
+        print(f"Received from {client_address[0]}: {data.decode()}")
 
         message = random.choice(answers)
         random.seed(123)
