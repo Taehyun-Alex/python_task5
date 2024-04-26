@@ -1,23 +1,25 @@
 import socket
-import time
+import random
+from magic_8_ball_answers import answers
 
-HEADERSIZE = 10
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_address = (socket.gethostname(), 12345)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((socket.gethostname(), 1235))
-s.listen(5)
+server_socket.bind(server_address)
+
+server_socket.listen(5)
 
 while True:
-    clientsocket, address = s.accept()
-    print(f"Connection from {address} has been established!")
+    connection, client_address = server_socket.accept()
+    print(f"Connection from: {client_address}")
 
-    msg = "Welcome to the server!"
-    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+    try:
+        data = connection.recv(1024)
+        print(f"Received from {client_address}: {data.decode()}")
 
-    clientsocket.send(bytes(msg, "utf-8"))
+        message = random.choice(answers)
+        random.seed(123)
+        connection.sendall(message.encode())
 
-    while True:
-        time.sleep(3)
-        msg = f"The time is! {time.time()}"
-        msg = f'{len(msg):<{HEADERSIZE}}' + msg
-        clientsocket.send(bytes(msg, "utf-8"))
+    finally:
+        connection.close()
