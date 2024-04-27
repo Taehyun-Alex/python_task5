@@ -23,5 +23,8 @@ while True:
         answer = random.choice(answers)
         connection.sendall(answer.encode())
 
+    except ConnectionError:
+        print("The client has disconnected from the server.")
+
     finally:
         connection.close()
