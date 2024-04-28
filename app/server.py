@@ -16,12 +16,12 @@ while True:
 
     try:
         data = connection.recv(1024)
-        question = data.decode()
+        question = data.decode("utf-8")
 
         random.seed(hash(question))
 
         answer = random.choice(answers)
-        connection.sendall(answer.encode())
+        connection.sendall(answer.encode("utf-8"))
 
     except ConnectionError:
         print("The client has disconnected from the server.")

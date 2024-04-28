@@ -12,7 +12,7 @@ while True:
         client_socket.sendall(question.encode("utf-8"))
 
         answer = client_socket.recv(1024)
-        print(answer.decode(), "\n")
+        print(answer.decode("utf-8"), "\n")
 
     finally:
         client_socket.close()
